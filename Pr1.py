@@ -13,9 +13,8 @@ class Ordenador():
             mayores = [x for x in lista[1:] if x.nombre>pivote]
 
             return Ordenador.OrdenadorNombre(menores)+ iguales + Ordenador.OrdenadorNombre(mayores)
-
         except ValueError:
-           print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
+            print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
 
 
 
@@ -165,3 +164,60 @@ class ActulizarProducto:
 
         while True:
             print("\n********* Categorías ********")
+
+
+
+def MenuOrdenador():
+    print("---> OPCIONES DE ORDENAMIENTO <---")
+    print("1. Ordenar por nombre")
+    print("2. Ordenar por precio")
+    print("3. Ordenar por stock")
+    print("4. Regresar: ")
+    print("Opcion a ingresar: ")
+
+def MenuPrincipal():
+    print("---> SMART STOCK <---")
+    print("1. Registrar productos")
+    print("2. Inventario")
+    print("3. Actualizar productos")
+    print("4. Eliminar productos")
+    print("5. Ordenar productos")
+    print("6. Salir")
+
+opcionMenuP = 0
+opcionMenuO = 0
+
+while opcionMenuP != 6:
+    MenuOrdenador()
+    opcionMenuP = int(input("7. Opcion a ingresar: "))
+    match(opcionMenuP):
+        case 1:
+            break
+        case 2:
+            break
+        case 3:
+            break
+        case 4:
+            break
+        case 5:
+            MenuOrdenador()
+            opcionMenu0 = int(input("1. Opcion a ingresar: "))
+
+            match(opcionMenu0):
+                case 1:
+                    break
+                case 2:
+                    break
+                case 3:
+                    break
+                case 4:
+                    break
+                case _:
+                    print("Error: Opcion no valida.\n")
+                    break
+            break
+        case 6:
+            break
+        case _:
+            print("Error: Opcion no valida.\n")
+            break
