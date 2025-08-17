@@ -11,7 +11,8 @@ class Ordenador():
             return Ordenador.OrdenadorNombre(menores) + iguales + Ordenador.OrdenadorNombre(mayores)
         except ValueError:
             print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
-     def OrdenadorPrecio(lista):
+
+    def OrdenadorPrecio(lista):
 
          try:
              if len(lista) <= 1:
