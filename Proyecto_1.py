@@ -1,4 +1,3 @@
-from dis import code_info
 class Producto:
     def __init__(self, codigo, nombre, categoria, precio, stock):
         self.codigo = codigo
@@ -17,7 +16,7 @@ class RegistrarProducto:
 
     def agregar_producto(self):
         while True:
-            codigo = input("Ingrese código del Producto: ").strip()
+            codigo = input("Ingrese código del Producto: ").strip() #Ingreso de codigo
             if not codigo:
                 print("Error: El código no puede estar vacío.\n")
                 continue
@@ -33,13 +32,13 @@ class RegistrarProducto:
                 continue
             break
 
-        categorias_validas = ["Alimento", "Electronico", "Ropa", "Higiene"]
+        categorias_validas = ["Alimento", "Electronico", "Ropa", "Higiene"] #lista con opciones de categorias
         while True:
             print("********* Categorías ********")
             for i, categ in enumerate(categorias_validas, start=1):
                 print(f"{i}. {categ}")
             try:
-                opcion = int(input("Seleccione una categoría (1-4): "))
+                opcion = int(input("Seleccione una categoría (1-4): "))# Seleccion de categoria
                 if 1 <= opcion <= len(categorias_validas):
                     categoria = categorias_validas[opcion - 1]
                     break
@@ -50,7 +49,7 @@ class RegistrarProducto:
 
         while True:
             try:
-                precio = float(input("Ingrese Precio Q(0.0): "))
+                precio = float(input("Ingrese Precio Q(0.0): ")) #Ingreso de Precio
                 if precio <= 0:
                     print("Error: El precio debe ser mayor a 0.\n")
                     continue
@@ -60,7 +59,7 @@ class RegistrarProducto:
 
         while True:
             try:
-                stock = int(input("Ingrese Stock: "))
+                stock = int(input("Ingrese Stock: ")) #Ingreso de Stock
                 if stock < 0:
                     print("Error: El stock no puede ser negativo.\n")
                     continue
@@ -72,35 +71,35 @@ class RegistrarProducto:
         self.productos[codigo] = producto
         print("Producto ingresado exitosamente...\n")
 
-    def mostrar_producto(self):
+    def mostrar_producto(self): #Muestra informacion de nuestro diccionario
         if not self.productos:
             print("No existen productos registrados.\n")
             return
         for producto in self.productos.values():
             print(producto.mostrar_info_producto())
 
-class ActulizarProducto:
-    def __init__(self,registro):
+class ActualizarProducto:
+    def __init__(self, registro):
         self.registro = registro
-        self.categorias = ["Alimento", "Electronico", "Ropa", "Higiene"]
 
     def actualizacion(self):
         if not self.registro.productos:
-            print("No hay productos registrados...")
+            print("No hay productos registrados...\n")
             return
 
         while True:
-            codigo = input("Ingrese codigo a actulizar: ").strip()
+            codigo = input("Ingrese código a actualizar: ").strip()
             if not codigo:
-                print("Error. Ingrese un codigo.\n")
+                print("Error. Ingrese un código.\n")
                 continue
             if codigo not in self.registro.productos:
-                print(f"Error. El producto con el codigo '{codigo}'no existe.\n")
+                print(f"Error. El producto con el código '{codigo}' no existe.\n")
                 continue
             break
 
-        info_actual = self.registro.productos[codigo] #p=info_actual
-        print("Informacion Actual")
+        info_actual = self.registro.productos[codigo]
+
+        print("\n--- Información actual ---")
         print(info_actual.mostrar_info_producto())
 
         while True:
@@ -114,6 +113,63 @@ class ActulizarProducto:
 
         while True:
             print("\n********* Categorías ********")
-            print("\nPrueba de commit 1")
+            for i, categ in enumerate(self.registro.categorias, start=1):
+                print(f"{i}. {categ}")
+            opc = input(
+                f"Seleccione la nueva categoría (1-{len(self.registro.categorias)}) "
+                f"o Enter para mantener [{info_actual.categoria}]: "
+            ).strip()
+            if opc == "":
+                break
+            try:
+                n = int(opc)
+                if 1 <= n <= len(self.registro.categorias):
+                    info_actual.categoria = self.registro.categorias[n - 1]
+                    break
+                else:
+                    print(f"Error: número fuera de rango (1-{len(self.registro.categorias)}).\n")
+            except ValueError:
+                print("Error: debe ingresar un número entero.\n")
+
+        while True:
+            prec = input(f"Nuevo precio [{info_actual.precio}] Q(0.0): ").strip()
+            if prec == "":
+                break
+            try:
+                precio = float(prec)
+                if precio > 0:
+                    info_actual.precio = precio
+                    break
+                print("Error: el precio debe ser mayor que 0.\n")
+            except ValueError:
+                print("Error: ingrese un valor numérico para el precio.\n")
+
+        while True:
+            existencia = input(f"Nuevo stock [{info_actual.stock}]: ").strip()
+            if existencia == "":
+                break
+            try:
+                stock = int(existencia)
+                if stock >= 0:
+                    info_actual.stock = stock
+                    break
+                print("Error: el stock no puede ser negativo.\n")
+            except ValueError:
+                print("Error: ingrese un número entero para el stock.\n")
+
+        print("\nProducto actualizado exitosamente...")
+        print(info_actual.mostrar_info_producto())
+        print()
+
+
+
+
+
+
+
+
+
+
+
 
 
