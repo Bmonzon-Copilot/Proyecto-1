@@ -42,6 +42,8 @@ class Ordenador():
 
 
 
+
+
 from dis import code_info
 class Producto:
     def __init__(self, codigo, nombre, categoria, precio, stock):
@@ -243,6 +245,8 @@ class ActulizarProducto:
 
 
 
+
+
 def MenuOrdenador():
     print("---> OPCIONES DE ORDENAMIENTO <---")
     print("1. Ordenar por nombre")
@@ -263,26 +267,23 @@ def MenuPrincipal():
 opcionMenuP = 0
 opcionMenuO = 0
 registroProducto = RegistrarProducto()
-actualizacion = ActulizarProducto()
+actualizacion = ActulizarProducto(registroProducto)
 
 while opcionMenuP != 6:
-    MenuOrdenador()
+    MenuPrincipal()
     opcionMenuP = int(input("Opcion a ingresar: "))
     match(opcionMenuP):
         case 1:
             print("REGISTRO DE PRODUCTOS")
             registroProducto.agregar_producto()
-            break
         case 2:
             print("INVENTARIO DE PRODUCTOS")
             registroProducto.mostrar_producto()
-            break
         case 3:
             print("ACTUALIZAR PRODUCTOS")
             actualizacion.actualizacion()
-            break
         case 4:
-            break
+            pass
         case 5:
             MenuOrdenador()
             opcionMenu0 = int(input("1. Opcion a ingresar: "))
@@ -291,25 +292,17 @@ while opcionMenuP != 6:
                 case 1:
                     print("ORDEN POR NOMBRE")
                     registroProducto.mostrarOrdenadosNm()
-                    break
                 case 2:
                     print("ORDEN POR PRECIO")
                     registroProducto.mostrarOrdenadosPr()
-                    break
                 case 3:
                     print("ORDEN POR STOCK")
                     registroProducto.mostrarOrdenadosSt()
-                    break
                 case 4:
                     print("REGRESANDO AL MENU")
-                    break
                 case _:
                     print("OPCION NO VALIDA")
-                    break
-            break
         case 6:
             print("SALIENDO DEL SISTEMA. GRACIAS POR SU VISITA :)")
-            break
         case _:
             print("OPCION NO VALIDA")
-            break
