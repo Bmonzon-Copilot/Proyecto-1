@@ -39,10 +39,41 @@ class Ordenador():
         except ValueError:
             print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
 
+class Buscador():
+    def __init__(self, registro):
+        self.registro = registro
 
+    def BuscadorCodigo(self,codigo):
+        if not self.registro.productos:
+            print("No hay productos ingresados...")
+            return
 
+        for producto in self.registro.productos.values():
+            if producto.codigo == codigo:
+                return producto
+        return None
 
+    def BuscadorNombre(self,nombre):
+        if not self.registro.productos:
+            print("No hay productos ingresados...")
+            return []
 
+        encontrados = []
+        for producto in self.registro.productos.values():
+            if producto.nombre == nombre:
+                encontrados.append(producto)
+        return encontrados
+
+    def BuscadorCategoria(self,categoria):
+        if not self.registro.productos:
+            print("No hay productos ingresados...")
+            return []
+
+        encontradosC = []
+        for producto in self.registro.productos.values():
+            if producto.categoria == categoria:
+                encontradosC.append(producto)
+        return encontradosC
 
 from dis import code_info
 class Producto:
@@ -156,6 +187,37 @@ class RegistrarProducto:
         for var2 in ordenados:
             print(var2.mostrar_info_producto())
 
+
+    def BuscarCodigo(self):
+        codigo = input("Codigo a buscar: ")
+        buscador = Buscador(registroProducto)
+        resultado = buscador.BuscadorCodigo(codigo)
+        if resultado:
+            print(resultado.mostrar_info_producto())
+        else:
+            print("Error: No se ha encontrado el producto.\n")
+
+    def BuscarNombre(self):
+        nombre = input("Nombre de producto a buscar: ")
+        buscador = Buscador(registroProducto)
+        resultado = buscador.BuscadorNombre(nombre)
+        if resultado:
+            for nmb in resultado:
+                print(nmb.mostrar_info_producto())
+        else:
+            print("Error: No se ha encontrado el producto.\n")
+
+
+    def BuscarCategoria(self):
+        categoria = input("Categoria de productos a buscar: ")
+        buscador = Buscador(registroProducto)
+        resultado = buscador.BuscadorCategoria(categoria)
+        if resultado:
+            for categ in resultado:
+                print(categ.mostrar_info_producto())
+        else:
+            print("Error: No se ha encontrado la categoria.\n")
+
 class ActulizarProducto:
     def __init__(self,registro):
         self.registro = registro
@@ -252,7 +314,7 @@ def MenuOrdenador():
     print("1. Ordenar por nombre")
     print("2. Ordenar por precio")
     print("3. Ordenar por stock")
-    print("4. Regresar: ")
+    print("4. Regresar")
     print("Opcion a ingresar: ")
 
 def MenuPrincipal():
@@ -262,14 +324,24 @@ def MenuPrincipal():
     print("3. Actualizar productos")
     print("4. Eliminar productos")
     print("5. Ordenar productos")
-    print("6. Salir")
+    print("6. Buscar productos")
+    print("7. Salir")
+
+def MenuBuscador():
+    print("---> Buscar productos <---")
+    print("1. Buscar por codigo")
+    print("2. Buscar por nombre")
+    print("3. Buscar por categoria")
+    print("4. Regresar:")
+
 
 opcionMenuP = 0
 opcionMenuO = 0
+opcionBuscador = 0
 registroProducto = RegistrarProducto()
 actualizacion = ActulizarProducto(registroProducto)
 
-while opcionMenuP != 6:
+while opcionMenuP != 7:
     MenuPrincipal()
     opcionMenuP = int(input("Opcion a ingresar: "))
     match(opcionMenuP):
@@ -303,6 +375,23 @@ while opcionMenuP != 6:
                 case _:
                     print("OPCION NO VALIDA")
         case 6:
+            MenuBuscador()
+            opcionBuscador = int(input("Opcion a ingresar: "))
+            match(opcionBuscador):
+                case 1:
+                    print("BUSQUEDA POR CODIGO")
+                    registroProducto.BuscarCodigo()
+                case 2:
+                    print("BUSQUEDA POR NOMBRE")
+                    registroProducto.BuscarNombre()
+                case 3:
+                    print("BUSQUEDA POR CATEGORIA")
+                    registroProducto.BuscarCategoria()
+                case 4:
+                    pass
+                case _:
+                    print("OPCION NO VALIDA")
+        case 7:
             print("SALIENDO DEL SISTEMA. GRACIAS POR SU VISITA :)")
         case _:
             print("OPCION NO VALIDA")
