@@ -129,6 +129,37 @@ class RegistrarProducto:
         for producto in self.productos.values():
             print(producto.mostrar_info_producto())
 
+
+    def mostrarOrdenadosNm(self):
+        if not self.productos:
+            print("No existen productos registrados.\n")
+            return
+        lista = list(self.productos.values())
+        ordenados = Ordenador.OrdenadorNombre(lista)
+        print("Productos Ordenados: Nombre")
+        for var in ordenados:
+            print(var.mostrar_info_producto())
+
+    def mostrarOrdenadosPr(self):
+        if not self.productos:
+            print("No existen productos registrados.\n")
+            return
+        lista = list(self.productos.values())
+        ordenados = Ordenador.OrdenadorPrecio(lista)
+        print("Productos Ordenados: Precio")
+        for var1 in ordenados:
+            print(var1.mostrar_info_producto())
+
+    def mostrarOrdenadosSt(self):
+        if not self.productos:
+            print("No existen productos registrados.\n")
+            return
+        lista = list(self.productos.values())
+        ordenados = Ordenador.OrdenadorNombre(lista)
+        print("Productos Ordenados: Stock")
+        for var2 in ordenados:
+            print(var2.mostrar_info_producto())
+
 class ActulizarProducto:
     def __init__(self,registro):
         self.registro = registro
