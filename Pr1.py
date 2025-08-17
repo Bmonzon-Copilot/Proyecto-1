@@ -252,26 +252,22 @@ class ActulizarProducto:
             print("Error: el nombre no puede estar vacío.\n")
 
         while True:
-
-
-
-
             print("\n********* Categorías ********")
-            for i, categ in enumerate(self.registro.categorias, start=1):
+            for i, categ in enumerate(self.categorias, start=1):
                 print(f"{i}. {categ}")
             opc = input(
-                f"Seleccione la nueva categoría (1-{len(self.registro.categorias)}) "
+                f"Seleccione la nueva categoría (1-{len(self.categorias)}) "
                 f"o Enter para mantener [{info_actual.categoria}]: "
             ).strip()
             if opc == "":
                 break
             try:
                 n = int(opc)
-                if 1 <= n <= len(self.registro.categorias):
+                if 1 <= n <= len(self.categorias):
                     info_actual.categoria = self.registro.categorias[n - 1]
                     break
                 else:
-                    print(f"Error: número fuera de rango (1-{len(self.registro.categorias)}).\n")
+                    print(f"Error: número fuera de rango (1-{len(self.categorias)}).\n")
             except ValueError:
                 print("Error: debe ingresar un número entero.\n")
 
@@ -376,7 +372,11 @@ actualizacion = ActulizarProducto(registroProducto)
 eliminar  = EliminarProducto(registroProducto)
 while opcionMenuP != 7:
     MenuPrincipal()
-    opcionMenuP = int(input("Opcion a ingresar: "))
+    try:
+       opcionMenuP = int(input("Opcion a ingresar: "))
+
+    except KeyboardInterrupt:
+        print("Operacion cancelada.\n")
     match(opcionMenuP):
         case 1:
             print("REGISTRO DE PRODUCTOS")
