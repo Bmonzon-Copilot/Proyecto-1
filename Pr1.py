@@ -1,23 +1,16 @@
 ##QUICK SORT POR NOMBRE
 class Ordenador():
-
     def OrdenadorNombre(lista):
-
         try:
             if len(lista) <= 1:
-               return lista
-
+                return lista
             pivote = lista[0].nombre
-            menores = [x for x in lista[1:] if x.nombre<pivote]
+            menores = [x for x in lista[1:] if x.nombre < pivote]
             iguales = [x for x in lista if x.nombre == pivote]
-            mayores = [x for x in lista[1:] if x.nombre>pivote]
-
-            return Ordenador.OrdenadorNombre(menores)+ iguales + Ordenador.OrdenadorNombre(mayores)
+            mayores = [x for x in lista[1:] if x.nombre > pivote]
+            return Ordenador.OrdenadorNombre(menores) + iguales + Ordenador.OrdenadorNombre(mayores)
         except ValueError:
             print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
-
-
-
      def OrdenadorPrecio(lista):
 
          try:
@@ -155,7 +148,7 @@ class RegistrarProducto:
             print("No existen productos registrados.\n")
             return
         lista = list(self.productos.values())
-        ordenados = Ordenador.OrdenadorNombre(lista)
+        ordenados = Ordenador.OrdenadorStock(lista)
         print("Productos Ordenados: Stock")
         for var2 in ordenados:
             print(var2.mostrar_info_producto())
@@ -194,7 +187,58 @@ class ActulizarProducto:
             print("Error: el nombre no puede estar vacío.\n")
 
         while True:
+
+
+
+
             print("\n********* Categorías ********")
+            for i, categ in enumerate(self.registro.categorias, start=1):
+                print(f"{i}. {categ}")
+            opc = input(
+                f"Seleccione la nueva categoría (1-{len(self.registro.categorias)}) "
+                f"o Enter para mantener [{info_actual.categoria}]: "
+            ).strip()
+            if opc == "":
+                break
+            try:
+                n = int(opc)
+                if 1 <= n <= len(self.registro.categorias):
+                    info_actual.categoria = self.registro.categorias[n - 1]
+                    break
+                else:
+                    print(f"Error: número fuera de rango (1-{len(self.registro.categorias)}).\n")
+            except ValueError:
+                print("Error: debe ingresar un número entero.\n")
+
+        while True:
+            prec = input(f"Nuevo precio [{info_actual.precio}] Q(0.0): ").strip()
+            if prec == "":
+                break
+            try:
+                precio = float(prec)
+                if precio > 0:
+                    info_actual.precio = precio
+                    break
+                print("Error: el precio debe ser mayor que 0.\n")
+            except ValueError:
+                print("Error: ingrese un valor numérico para el precio.\n")
+
+        while True:
+            existencia = input(f"Nuevo stock [{info_actual.stock}]: ").strip()
+            if existencia == "":
+                break
+            try:
+                stock = int(existencia)
+                if stock >= 0:
+                    info_actual.stock = stock
+                    break
+                print("Error: el stock no puede ser negativo.\n")
+            except ValueError:
+                print("Error: ingrese un número entero para el stock.\n")
+
+        print("\nProducto actualizado exitosamente...")
+        print(info_actual.mostrar_info_producto())
+        print()
 
 
 
@@ -217,16 +261,24 @@ def MenuPrincipal():
 
 opcionMenuP = 0
 opcionMenuO = 0
+registroProducto = RegistrarProducto()
+actualizacion = ActulizarProducto()
 
 while opcionMenuP != 6:
     MenuOrdenador()
-    opcionMenuP = int(input("7. Opcion a ingresar: "))
+    opcionMenuP = int(input("Opcion a ingresar: "))
     match(opcionMenuP):
         case 1:
+            print("REGISTRO DE PRODUCTOS")
+            registroProducto.agregar_producto()
             break
         case 2:
+            print("INVENTARIO DE PRODUCTOS")
+            registroProducto.mostrar_producto()
             break
         case 3:
+            print("ACTUALIZAR PRODUCTOS")
+            actualizacion.actualizacion()
             break
         case 4:
             break
@@ -236,19 +288,27 @@ while opcionMenuP != 6:
 
             match(opcionMenu0):
                 case 1:
+                    print("ORDEN POR NOMBRE")
+                    registroProducto.mostrarOrdenadosNm()
                     break
                 case 2:
+                    print("ORDEN POR PRECIO")
+                    registroProducto.mostrarOrdenadosPr()
                     break
                 case 3:
+                    print("ORDEN POR STOCK")
+                    registroProducto.mostrarOrdenadosSt()
                     break
                 case 4:
+                    print("REGRESANDO AL MENU")
                     break
                 case _:
-                    print("Error: Opcion no valida.\n")
+                    print("OPCION NO VALIDA")
                     break
             break
         case 6:
+            print("SALIENDO DEL SISTEMA. GRACIAS POR SU VISITA :)")
             break
         case _:
-            print("Error: Opcion no valida.\n")
+            print("OPCION NO VALIDA")
             break
