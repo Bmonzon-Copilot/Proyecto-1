@@ -103,7 +103,7 @@ class ActualizarProducto:
         print(info_actual.mostrar_info_producto())
 
         while True:
-            nuevo_nombre = input(f"Nuevo nombre [{info_actual.nombre}]: ").strip()
+            nuevo_nombre = input(f"Nuevo nombre [{info_actual.nombre}] preciona enter para mantener: ").strip()
             if nuevo_nombre == "":
                 break
             if nuevo_nombre:
@@ -161,9 +161,40 @@ class ActualizarProducto:
         print(info_actual.mostrar_info_producto())
         print()
 
+class EliminarProducto:
+    def __init__(self,registro):
+        self.registro = registro
 
+    def eliminar(self):
+        if not self.registro.productos:
+            print("No hay productos registrados")
+            return
 
+        while True:
+            codigo = input("Ingrese EL codigo del producto a eliminar: ").strip()
+            if not codigo:
+                print("Error,Debe de colocar un codigo")
+                continue
+            if codigo not in self.registro.productos:
+                print(f"Error, el codigo ingresado '{codigo}' no pertenece a ningun producto.\n")
+                continue
+            break
 
+        info_actual = self.registro.productos[codigo]
+        print("/n-----Producto a Eliminar-----")
+        print(info_actual.mostrar_info_producto())
+
+        while True:
+            confir = input("Quiere eliminar el producto (s/n): ").strip().lower()
+            if confir == "s":
+                del self.registro.productos[codigo]
+                print("Producto eliminado correctamente...\n")
+                break
+            elif confir == "n":
+                print("Operacion cancelada.\n")
+                break
+            else:
+                print("Ingrese 's' o 'n'.\n")
 
 
 
