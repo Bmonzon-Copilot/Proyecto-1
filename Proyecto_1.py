@@ -114,5 +114,6 @@ class ActulizarProducto:
 
         while True:
             print("\n********* Categorías ********")
+            print("\nPrueba de commit 1")
 
 
