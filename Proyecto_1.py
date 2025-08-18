@@ -1,3 +1,80 @@
+##QUICK SORT POR NOMBRE
+class Ordenador():
+    def OrdenadorNombre(lista):
+        try:
+            if len(lista) <= 1:
+                return lista
+            pivote = lista[0].nombre
+            menores = [x for x in lista[1:] if x.nombre < pivote]
+            iguales = [x for x in lista if x.nombre == pivote]
+            mayores = [x for x in lista[1:] if x.nombre > pivote]
+            return Ordenador.OrdenadorNombre(menores) + iguales + Ordenador.OrdenadorNombre(mayores)
+        except ValueError:
+            print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
+
+    def OrdenadorPrecio(lista):
+
+         try:
+             if len(lista) <= 1:
+                 return lista
+             pivote = lista[0].precio
+             menores = [x for x in lista[1:] if x.precio<pivote]
+             iguales = [x for x in lista if x.precio==pivote]
+             mayores = [x for x in lista[1:]if x.precio>pivote]
+             return Ordenador.OrdenadorPrecio(menores) + iguales + Ordenador.OrdenadorPrecio(mayores)
+         except ValueError:
+             print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
+
+
+    def OrdenadorStock(lista):
+        try:
+            if len(lista) <= 1:
+                return lista
+            pivote = lista[0].stock
+            menores = [x for x in lista[1:] if x.stock < pivote]
+            iguales = [x for x in lista if x.stock == pivote]
+            mayores = [x for x in lista[1:] if x.stock > pivote]
+            return Ordenador.OrdenadorStock(menores) + iguales + Ordenador.OrdenadorStock(mayores)
+
+        except ValueError:
+            print("NOTIFICACION: AUN NO HAY PRODUCTOS INGRESADOS...")
+
+class Buscador():
+    def __init__(self, registro):
+        self.registro = registro
+
+    def BuscadorCodigo(self,codigo):
+        if not self.registro.productos:
+            print("No hay productos ingresados...")
+            return
+
+        for producto in self.registro.productos.values():
+            if producto.codigo == codigo:
+                return producto
+        return None
+
+    def BuscadorNombre(self,nombre):
+        if not self.registro.productos:
+            print("No hay productos ingresados...")
+            return []
+
+        encontrados = []
+        for producto in self.registro.productos.values():
+            if producto.nombre == nombre:
+                encontrados.append(producto)
+        return encontrados
+
+    def BuscadorCategoria(self,categoria):
+        if not self.registro.productos:
+            print("No hay productos ingresados...")
+            return []
+
+        encontradosC = []
+        for producto in self.registro.productos.values():
+            if producto.categoria == categoria:
+                encontradosC.append(producto)
+        return encontradosC
+
 from dis import code_info
 class Producto:
     def __init__(self, codigo, nombre, categoria, precio, stock):
@@ -79,6 +156,68 @@ class RegistrarProducto:
         for producto in self.productos.values():
             print(producto.mostrar_info_producto())
 
+
+    def mostrarOrdenadosNm(self):
+        if not self.productos:
+            print("No existen productos registrados.\n")
+            return
+        lista = list(self.productos.values())
+        ordenados = Ordenador.OrdenadorNombre(lista)
+        print("Productos Ordenados: Nombre")
+        for var in ordenados:
+            print(var.mostrar_info_producto())
+
+    def mostrarOrdenadosPr(self):
+        if not self.productos:
+            print("No existen productos registrados.\n")
+            return
+        lista = list(self.productos.values())
+        ordenados = Ordenador.OrdenadorPrecio(lista)
+        print("Productos Ordenados: Precio")
+        for var1 in ordenados:
+            print(var1.mostrar_info_producto())
+
+    def mostrarOrdenadosSt(self):
+        if not self.productos:
+            print("No existen productos registrados.\n")
+            return
+        lista = list(self.productos.values())
+        ordenados = Ordenador.OrdenadorStock(lista)
+        print("Productos Ordenados: Stock")
+        for var2 in ordenados:
+            print(var2.mostrar_info_producto())
+
+
+    def BuscarCodigo(self):
+        codigo = input("Codigo a buscar: ")
+        buscador = Buscador(registroProducto)
+        resultado = buscador.BuscadorCodigo(codigo)
+        if resultado:
+            print(resultado.mostrar_info_producto())
+        else:
+            print("Error: No se ha encontrado el producto.\n")
+
+    def BuscarNombre(self):
+        nombre = input("Nombre de producto a buscar: ")
+        buscador = Buscador(registroProducto)
+        resultado = buscador.BuscadorNombre(nombre)
+        if resultado:
+            for nmb in resultado:
+                print(nmb.mostrar_info_producto())
+        else:
+            print("Error: No se ha encontrado el producto.\n")
+
+
+    def BuscarCategoria(self):
+        categoria = input("Categoria de productos a buscar: ")
+        buscador = Buscador(registroProducto)
+        resultado = buscador.BuscadorCategoria(categoria)
+        if resultado:
+            for categ in resultado:
+                print(categ.mostrar_info_producto())
+        else:
+            print("Error: No se ha encontrado la categoria.\n")
+
 class ActulizarProducto:
     def __init__(self,registro):
         self.registro = registro
@@ -114,5 +253,181 @@ class ActulizarProducto:
 
         while True:
             print("\n********* Categorías ********")
+            for i, categ in enumerate(self.categorias, start=1):
+                print(f"{i}. {categ}")
+            opc = input(
+                f"Seleccione la nueva categoría (1-{len(self.categorias)}) "
+                f"o Enter para mantener [{info_actual.categoria}]: "
+            ).strip()
+            if opc == "":
+                break
+            try:
+                n = int(opc)
+                if 1 <= n <= len(self.categorias):
+                    info_actual.categoria = self.categorias[n - 1]
+                    break
+                else:
+                    print(f"Error: número fuera de rango (1-{len(self.categorias)}).\n")
+            except ValueError:
+                print("Error: debe ingresar un número entero.\n")
+
+        while True:
+            prec = input(f"Nuevo precio [{info_actual.precio}] Q(0.0): ").strip()
+            if prec == "":
+                break
+            try:
+                precio = float(prec)
+                if precio > 0:
+                    info_actual.precio = precio
+                    break
+                print("Error: el precio debe ser mayor que 0.\n")
+            except ValueError:
+                print("Error: ingrese un valor numérico para el precio.\n")
+
+        while True:
+            existencia = input(f"Nuevo stock [{info_actual.stock}]: ").strip()
+            if existencia == "":
+                break
+            try:
+                stock = int(existencia)
+                if stock >= 0:
+                    info_actual.stock = stock
+                    break
+                print("Error: el stock no puede ser negativo.\n")
+            except ValueError:
+                print("Error: ingrese un número entero para el stock.\n")
+
+        print("\nProducto actualizado exitosamente...")
+        print(info_actual.mostrar_info_producto())
+        print()
+
+
+class EliminarProducto:
+    def __init__(self,registro):
+        self.registro = registro
+
+    def eliminar(self):
+        if not self.registro.productos:
+            print("No hay productos registrados")
+            return
+
+        while True:
+            codigo = input("Ingrese EL codigo del producto a eliminar: ").strip()
+            if not codigo:
+                print("Error,Debe de colocar un codigo")
+                continue
+            if codigo not in self.registro.productos:
+                print(f"Error, el codigo ingresado '{codigo}' no pertenece a ningun producto.\n")
+                continue
+            break
+
+        info_actual = self.registro.productos[codigo]
+        print("/n-----Producto a Eliminar-----")
+        print(info_actual.mostrar_info_producto())
+
+        while True:
+            confir = input("Quiere eliminar el producto (s/n): ").strip().lower()
+            if confir == "s":
+                del self.registro.productos[codigo]
+                print("Producto eliminado correctamente...\n")
+                break
+            elif confir == "n":
+                print("Operacion cancelada.\n")
+                break
+            else:
+                print("Ingrese 's' o 'n'.\n")
+
+
+def MenuOrdenador():
+    print("---> OPCIONES DE ORDENAMIENTO <---")
+    print("1. Ordenar por nombre")
+    print("2. Ordenar por precio")
+    print("3. Ordenar por stock")
+    print("4. Regresar")
+    print("Opcion a ingresar: ")
+
+def MenuPrincipal():
+    print("---> SMART STOCK <---")
+    print("1. Registrar productos")
+    print("2. Inventario")
+    print("3. Actualizar productos")
+    print("4. Eliminar productos")
+    print("5. Ordenar productos")
+    print("6. Buscar productos")
+    print("7. Salir")
+
+def MenuBuscador():
+    print("---> Buscar productos <---")
+    print("1. Buscar por codigo")
+    print("2. Buscar por nombre")
+    print("3. Buscar por categoria")
+    print("4. Regresar:")
+
+
+opcionMenuP = 0
+opcionMenuO = 0
+opcionBuscador = 0
+registroProducto = RegistrarProducto()
+actualizacion = ActulizarProducto(registroProducto)
+eliminar  = EliminarProducto(registroProducto)
+while opcionMenuP != 7:
+    MenuPrincipal()
+    try:
+       opcionMenuP = int(input("Opcion a ingresar: "))
+
+    except KeyboardInterrupt:
+        print("Operacion cancelada.\n")
+    match(opcionMenuP):
+        case 1:
+            print("REGISTRO DE PRODUCTOS")
+            registroProducto.agregar_producto()
+        case 2:
+            print("INVENTARIO DE PRODUCTOS")
+            registroProducto.mostrar_producto()
+        case 3:
+            print("ACTUALIZAR PRODUCTOS")
+            actualizacion.actualizacion()
+        case 4:
+            eliminar.eliminar()
+            pass
+        case 5:
+            MenuOrdenador()
+            opcionMenu0 = int(input("1. Opcion a ingresar: "))
+
+            match(opcionMenu0):
+                case 1:
+                    print("ORDEN POR NOMBRE")
+                    registroProducto.mostrarOrdenadosNm()
+                case 2:
+                    print("ORDEN POR PRECIO")
+                    registroProducto.mostrarOrdenadosPr()
+                case 3:
+                    print("ORDEN POR STOCK")
+                    registroProducto.mostrarOrdenadosSt()
+                case 4:
+                    print("REGRESANDO AL MENU")
+                case _:
+                    print("OPCION NO VALIDA")
+        case 6:
+            MenuBuscador()
+            opcionBuscador = int(input("Opcion a ingresar: "))
+            match(opcionBuscador):
+                case 1:
+                    print("BUSQUEDA POR CODIGO")
+                    registroProducto.BuscarCodigo()
+                case 2:
+                    print("BUSQUEDA POR NOMBRE")
+                    registroProducto.BuscarNombre()
+                case 3:
+                    print("BUSQUEDA POR CATEGORIA")
+                    registroProducto.BuscarCategoria()
+                case 4:
+                    pass
+                case _:
+                    print("OPCION NO VALIDA")
+        case 7:
+            print("SALIENDO DEL SISTEMA. GRACIAS POR SU VISITA :)")
+        case _:
+            print("OPCION NO VALIDA")
 
 
